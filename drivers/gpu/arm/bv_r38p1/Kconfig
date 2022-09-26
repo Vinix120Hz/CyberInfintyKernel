@@ -27,7 +27,7 @@ menuconfig MALI_MIDGARD
 	select FW_LOADER
 	default m if SOC_EXYNOS2100
 	default y if SOC_EXYNOS9830
-	default n
+	default y
 	help
 	  Enable this option to build support for a ARM Mali Midgard GPU.
 
@@ -66,7 +66,7 @@ config MALI_DEVFREQ
 	select DEVFREQ_GOV_SIMPLE_ONDEMAND
 	default n if SOC_EXYNOS2100
 	default n if SOC_EXYNOS9830
-	default y
+	default n
 	help
 	  Support devfreq for Mali.
 
@@ -93,7 +93,7 @@ config MALI_MIDGARD_ENABLE_TRACE
 	bool "Enable kbase tracing"
 	depends on MALI_MIDGARD
 	default y if MALI_DEBUG
-	default n
+	default y
 	help
 	  Enables tracing in kbase. Trace log available through
 	  the "mali_trace" debugfs file, when the CONFIG_DEBUG_FS is enabled
@@ -133,7 +133,7 @@ config MALI_DMA_BUF_MAP_ON_DEMAND
 config MALI_DMA_BUF_LEGACY_COMPAT
 	bool "Enable legacy compatibility cache flush on dma-buf map"
 	depends on MALI_MIDGARD && !MALI_DMA_BUF_MAP_ON_DEMAND
-	default n
+	default y
 	help
 	  This option enables compatibility with legacy dma-buf mapping
 	  behavior, then the dma-buf is mapped on import, by adding cache
@@ -149,7 +149,7 @@ menuconfig MALI_EXPERT
 	bool "Enable Expert Settings"
 	default y if SOC_EXYNOS2100
 	default y if SOC_EXYNOS9830
-	default n
+	default y
 	help
 	  Enabling this option and modifying the default settings may produce
 	  a driver with performance or other limitations.
@@ -275,9 +275,10 @@ config MALI_SYSTEM_TRACE
 comment "Instrumentation options"
 	depends on MALI_MIDGARD && MALI_EXPERT
 
-# MALI_SEC_INTEGRATION: Don't set MALI_PRFCNT_SET_ options as choice
-# If it's set as a choice, it can cause problems during 9810 build which contains
+# MALI_SEC_INTEGRATION: Don't set MALI_PRFCNT_SET_ options as choice	
+# If it's set as a choice, it can cause problems during 9810 build which contains	
 # older Mali kbase code which contains the same option name as these.
+
 config MALI_PRFCNT_SET_PRIMARY
 	bool "Primary"
 	depends on MALI_MIDGARD && MALI_EXPERT
@@ -362,9 +363,9 @@ config MALI_PWRSOFT_765
 config MALI_HW_ERRATA_1485982_NOT_AFFECTED
 	bool "Disable workaround for BASE_HW_ISSUE_GPU2017_1336"
 	depends on MALI_MIDGARD && MALI_EXPERT
-	default y if SOC_EXYNOS2100
-	default y if SOC_EXYNOS9830
-	default n
+	default y if SOC_EXYNOS2100	
+	default y if SOC_EXYNOS9830	
+	default y
 	help
 	  This option disables the default workaround for GPU2017-1336. The
 	  workaround keeps the L2 cache powered up except for powerdown and reset.
@@ -395,10 +396,10 @@ config MALI_ARBITRATION
 	  virtualization setup for Mali
 	  If unsure, say N.
 
-if MALI_ARBITRATION
+# if MALI_ARBITRATION
 # source "drivers/gpu/arm/midgard/arbitration/Kconfig"
-endif
-
-# source "drivers/gpu/arm/midgard/tests/Kconfig"
+# endif
+#
+# source "drivers/gpu/arm/midgard/t
 
 endif
