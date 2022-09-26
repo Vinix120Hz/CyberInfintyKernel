@@ -31,7 +31,7 @@ void kbase_cache_set_coherency_mode(struct kbase_device *kbdev,
 
 	kbdev->current_gpu_coherency_mode = mode;
 
-	kbase_reg_write(kbdev, COHERENCY_ENABLE, mode);
+		kbase_reg_write(kbdev, COHERENCY_ENABLE, mode);
 
 	mali_exynos_llc_set_awuser();
 	mali_exynos_llc_set_aruser();
