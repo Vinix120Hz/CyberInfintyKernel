@@ -159,6 +159,7 @@ int kbase_backend_gpuprops_get_features(struct kbase_device *kbdev,
 	kbase_pm_register_access_enable(kbdev);
 
 	mali_exynos_coherency_set_coherency_feature();
+
 	coherency_features = kbase_cache_get_coherency_features(kbdev);
 
 	if (kbase_is_gpu_removed(kbdev))
