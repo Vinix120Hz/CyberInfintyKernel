@@ -604,6 +604,30 @@ static const struct attribute_group asv_g_spec_grp = {
 #endif
 #endif /* CONFIG_SEC_FACTORY */
 
+ssize_t fvmap_print(char *buf, unsigned int dvfs_type)
+{
+	volatile struct fvmap_header *fvmap_header;
+	struct rate_volt_header *cur;
+	int size;
+	int i, j;
+	ssize_t len = 0;
+
+	fvmap_header = fvmap_base;
+	size = cmucal_get_list_size(ACPM_VCLK_TYPE);
+
+	for (i = 0; i < size; i++) {
+		if (fvmap_header[i].dvfs_type == dvfs_type) {
+			cur = fvmap_base + fvmap_header[i].o_ratevolt;
+
+			for (j = 0; j < fvmap_header[i].num_of_lv; j++)
+				len += sprintf(buf + len, "%d %d\n",
+					cur->table[j].rate, cur->table[j].volt);
+		}
+	}
+
+	return len;
+}
+
 static void fvmap_copy_from_sram(void __iomem *map_base, void __iomem *sram_base)
 {
 	volatile struct fvmap_header *fvmap_header, *header;
