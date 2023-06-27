@@ -18,6 +18,9 @@ static inline int cal_if_init(void)
 
 #define BLKPWR_MAGIC	0xB1380000
 
+#define READ_VOLT 0
+#define READ_RATE 1
+
 extern unsigned int cal_clk_get(char *name);
 extern unsigned int cal_clk_is_enabled(unsigned int vclkid);
 extern int cal_clk_setrate(unsigned int vclkid, unsigned long rate);
@@ -111,4 +114,8 @@ extern int cal_if_init(void *);
 #define cal_vclk_dbg_info(a)	do{} while(0);
 //extern void cal_vclk_dbg_info(unsigned int id);
 #endif
+
+int fvmap_patch(unsigned int dvfs_type, unsigned int rate, unsigned int volt);
+unsigned int fvmap_read(unsigned int dvfs_type, int mode, unsigned int value);
+
 #endif
