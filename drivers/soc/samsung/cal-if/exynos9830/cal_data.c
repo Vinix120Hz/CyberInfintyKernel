@@ -434,7 +434,7 @@ void exynos9830_set_cmu_smpl_warn(void)
 }
 void (*cal_set_cmu_smpl_warn)(void) = exynos9830_set_cmu_smpl_warn;
 
-#if defined(CONFIG_SEC_PM_DEBUG) && defined(CONFIG_DEBUG_FS)
+#if defined(CONFIG_DEBUG_FS)
 #include <linux/debugfs.h>
 
 #define ASV_SUMMARY_SZ	(MFC - MIF + 1)
