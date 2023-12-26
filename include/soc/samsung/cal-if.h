@@ -18,7 +18,7 @@ static inline int cal_if_init(void)
 
 #define BLKPWR_MAGIC	0xB1380000
 
-#define READ_VOLT 0
+#define READ_VOLT 1
 #define READ_RATE 1
 
 extern unsigned int cal_clk_get(char *name);
