@@ -209,9 +209,9 @@ struct kbasep_pm_tick_timer_state {
 };
 
 union kbase_pm_policy_data {
-	struct kbasep_pm_policy_always_on always_on;
 	struct kbasep_pm_policy_coarse_demand coarse_demand;
 	struct kbasep_pm_policy_adaptive adaptive;
+	struct kbasep_pm_policy_always_on always_on;
 };
 
 /**
