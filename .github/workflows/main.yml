@@ -20,12 +20,12 @@ jobs:
           config: x1slte.config
           arch: arm64
           aosp-gcc: false
-          aosp-clang: true
+          aosp-clang: false
           ksu: true
           kvm: true
           android-version: 15
           aosp-clang-version: r416183b1
-          anykernel3: true
+          anykernel3: false
 
     # New step to upload compilation artifacts
     - name: Upload Build Artifacts
