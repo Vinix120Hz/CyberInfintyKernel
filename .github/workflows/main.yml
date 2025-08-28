@@ -20,7 +20,7 @@ jobs:
           config: x1slte.config
           arch: arm64
           aosp-gcc: false
-          aosp-clang: false
+          aosp-clang: true
           ksu: true
           kvm: true
           android-version: 15
