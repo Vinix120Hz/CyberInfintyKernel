@@ -1,0 +1,37 @@
+name: Build Kernel
+on:
+  workflow_dispatch:
+
+jobs:
+  Build-Kernel:
+    strategy:
+      fail-fast: false
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+    - name: Build Kernel
+      uses: Vinix120Hz/kernel_build_action@main
+      with:
+          kernel-url: https://github.com/Vinix120Hz/CyberInfintyKernel.git
+          kernel-dir: main
+          kernel-branch: main
+          config: x1slte.config
+          arch: arm64
+          aosp-gcc: false
+          aosp-clang: false
+          ksu: true
+          kvm: true
+          android-version: 15
+          aosp-clang-version: r416183b1
+          anykernel3: true
+
+    # New step to upload compilation artifacts
+    - name: Upload Build Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: kernel-artifacts
+        path: |
+          O=dir/to/store/output/files/
+          anykernel3/*.zip
