@@ -12,7 +12,7 @@ jobs:
 
     steps:
     - name: Build Kernel
-      uses: Vinix120Hz/kernel_build_action@main
+      uses: CyberInfinityKernel/kernel_build_action@main
       with:
           kernel-url: https://github.com/Vinix120Hz/CyberInfintyKernel.git
           kernel-dir: main
