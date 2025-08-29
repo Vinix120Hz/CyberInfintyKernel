@@ -25,11 +25,13 @@
 		power-domains = <&pd_embedded_g3d>;
 		g3d_genpd_name = "pd-embedded_g3d";
 		#cooling-cells = <2>; /* min followed by max */
-		governor = "interactive";
+		governor = "booster";
 		interactive_info = <377000 94 0>;
-		gpu_dvfs_table_size = <8 8>; /*<row col>*/
+		gpu_dvfs_table_size = <10 8>; /*<row col>*/
 		/*  8 columns      freq  down   up  stay  mif   little  middle   big  */
 		gpu_dvfs_table = <
+		        1002000    78  100   5  2730000  1300000 1404000 1690000
+		        896000    78  100   5  2730000  1300000 1404000 1690000
 			832000    78  100   5  2730000  1300000 1404000 1690000
 			800000    78  100   5  2730000  1300000       0 1690000
 			702000    78   90   5  2535000  1300000       0       0
@@ -39,9 +41,11 @@
 			260000    78   93   1  1352000        0       0       0
 			156000     0   93   1   845000        0       0       0 >;
 		/* gpu-cl-pmqos-table-size */
-		gpu_cl_pmqos_table_size = <8 5>; /*<row col>*/
+		gpu_cl_pmqos_table_size = <10 5>; /*<row col>*/
 		/*  g3d-freq  mif-min  mif-max  lit-min lit-max  mid-min  mid-max  big-min  big-max  */
 		gpu_cl_pmqos_table = <
+		        1002000    2028000  1300000 1404000 1690000
+		        896000    2028000  1300000 1404000 1690000
 			832000    2028000  1300000 1404000 1690000
 			800000    2028000  1300000       0 1690000
 			702000    1539000  1300000       0       0
@@ -54,8 +58,8 @@
 		gpu_pmqos_cpu_cluster_num = <3>;
 		gpu_pmu_status_reg_offset = <0x2204>;
 		gpu_pmu_status_local_pwr_mask = <0x1>; /*0x1 << 0*/
-		gpu_max_clock = <800000>;
-		gpu_max_clock_limit = <800000>;
+		gpu_max_clock = <1002000>;
+		gpu_max_clock_limit = <1002000>;
 		gpu_min_clock = <156000>;
 		gpu_dvfs_start_clock = <260000>;
 		gpu_dvfs_bl_config_clock = <156000>;
@@ -63,8 +67,8 @@
 		gpu_cold_minimum_vol = <0>;
 		gpu_voltage_offset_margin = <37500>;
 		gpu_tmu_control = <1>;
-		gpu_temp_throttling_level_num = <6>;
-		gpu_temp_throttling = <800000 702000 572000 455000 377000 260000>;
+		gpu_temp_throttling_level_num = <9>;
+		gpu_temp_throttling = <1002000 896000 832000 800000 702000 572000 455000 377000 260000>;
 		gpu_power_coeff = <625>;
 		gpu_dvfs_time_interval = <5>; /*1 tick : 10ms*/
 		gpu_default_wakeup_lock = <1>;
@@ -73,7 +77,7 @@
 		gpu_dvs = <0>;
 		gpu_inter_frame_pm = <1>;
 		gpu_inter_frame_dynamic_util = <50>;
-		gpu_inter_frame_dynamic_freq = <702000>;
+		gpu_inter_frame_dynamic_freq = <1002000>;
 		gpu_perf_gathering = <0>;
 		gpu_runtime_pm_delay_time = <50>;
 		gpu_dvfs_polling_time = <30>;
