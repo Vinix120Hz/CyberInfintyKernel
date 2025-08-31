@@ -62,9 +62,6 @@ obj-$(CONFIG_EXYNOS_SECURE_LOG)	+= exynos-seclog.o
 # Exynos Samsung Secure Platform
 obj-$(CONFIG_EXYNOS_SSP)	+= exynos-ssp.o
 
-# OCP
-obj-$(CONFIG_EXYNOS_OCP)        += exynos-ocp.o
-
 # HIU
 obj-$(CONFIG_EXYNOS_PSTATE_HAFM)        += exynos-hiu.o
 
