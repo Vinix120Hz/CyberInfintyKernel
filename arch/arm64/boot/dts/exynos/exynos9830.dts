@@ -749,12 +749,12 @@
 			cal-id = <ACPM_DVFS_CPUCL0>;
 			dm-type = <DM_CPU_CL0>;
 
-			max-freq = <2002000>;
-			min-freq = <442000>;
+			max-freq = <2312000>;
+			min-freq = <182000>;
 
 			/* PM QoS Class ID*/
 			pm_qos-min-class = <3>;
-			pm_qos-max-class = <4>;
+			pm_qos-max-class = <7>;
 
 			user-default-qos = <806000>;
 			user-boost = <0>;
@@ -768,7 +768,9 @@
 					dynamic-disable;
 
 						/* cpu      mif */
-					table = < 2106000 0
+					table = < 2312000 0 
+					        2261000 0
+					        2106000 0
 						2002000 0
 						1950000 0
 						1846000 0
@@ -800,12 +802,12 @@
 			cal-id = <ACPM_DVFS_CPUCL1>;
 			dm-type = <DM_CPU_CL1>;
 
-			max-freq = <2600000>;
-			min-freq = <507000>;
+			max-freq = <2803000>;
+			min-freq = <377000>;
 
 			/* PM QoS Class ID*/
 			pm_qos-min-class = <5>;
-			pm_qos-max-class = <6>;
+			pm_qos-max-class = <9>;
 
 			user-default-qos = <845000>;
 			user-boost = <1>;
@@ -819,7 +821,10 @@
 					dynamic-disable;
 
 						/* cpu     mif */
-					table = < 2600000 2730000
+					table = < 2803000 2730000
+					        2712000 2730000
+					        2652000 2730000
+					        2600000 2730000
 						2504000 2730000
 						2400000 2535000
 						2314000 2535000
@@ -863,12 +868,12 @@
 			dm-type = <DM_CPU_CL2>;
 			need-awake;
 
-			max-freq = <2730000>;
+			max-freq = <3321000>;
 			min-freq = <546000>;
 
 			/* PM QoS Class ID*/
 			pm_qos-min-class = <7>;
-			pm_qos-max-class = <8>;
+			pm_qos-max-class = <11>;
 
                         pm_qos-booting = <2002000>;
 
@@ -884,7 +889,10 @@
 					dynamic-disable;
 
 					/*  cpu     mif  */
-					table = < 3016000 2730000
+					table = < 3321000 2730000
+					        3214000 2730000
+					        3112000 2730000
+					        3016000 2730000
 						2834000 2730000
 						2730000 2730000
 						2626000 2730000
