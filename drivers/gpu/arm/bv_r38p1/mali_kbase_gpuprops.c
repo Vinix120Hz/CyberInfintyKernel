@@ -522,10 +522,6 @@ int kbase_gpuprops_set_features(struct kbase_device *kbdev)
 	mali_exynos_llc_set_awuser();
 	mali_exynos_llc_set_aruser();
 
-	/* EXYNOS TODO: this is only called once during init. may be there's a better place for this call? */
-	mali_exynos_llc_set_awuser();
-	mali_exynos_llc_set_aruser();
-
 	return err;
 }
 
