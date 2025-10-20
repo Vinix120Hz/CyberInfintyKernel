@@ -1048,12 +1048,12 @@
 		active-pct-thr = < 100 >;
 		valid-freq-delta-pct = < 50 >;
 		min-sensitivity = < 10 >;
-		cpu-bottleneck-thr = < 300 >;
-		gpu-bottleneck-thr = < 50 >;
-		gpu-ar-bottleneck-thr = < 750 >;
-		mif-bottleneck-thr = < 4800 >;
-		mif-freq-stats-ratio-bottleneck-thr = < 70 >;
-		inc-perf-temp-thr = < 65 >;
+		cpu-bottleneck-thr = < 1000 >;
+		gpu-bottleneck-thr = < 10 >;
+		gpu-ar-bottleneck-thr = < 1000 >;
+		mif-bottleneck-thr = < 5000 >;
+		mif-freq-stats-ratio-bottleneck-thr = < 90 >;
+		inc-perf-temp-thr = < 500 >;
 		inc-perf-power-thr = < 2500000 >;
 
 		/* FPS */
@@ -1097,25 +1097,25 @@
 			pm-qos-max-freq = < 2210000 >;
 		};
 		cl2 {
-			max = < 200 >;
+			max = < 50 >;
 			min = < (-300) >;
-			up-step = < 3 >;
-			down-step = < 6 >;
+			up-step = < 1 >;
+			down-step = < 8 >;
 			default-step = < 10 >;
-			stall-pct-thr = < 0 >;		/* temp */
+			stall-pct-thr = < 10 >;		/* temp */
 			pm-qos-min-class = <7>;
-			pm-qos-max-class = <8>;
-			pm-qos-max-freq = < 1898000 >;
+			pm-qos-max-class = <7>;
+			pm-qos-max-freq = < 800000 >;
 		};
 		gpu {
 			max = < 220 >;
 			min = < 1 >;
-			up-step = < 3 >;
-			down-step = < 6 >;
-			default-step = < 2 >;
+			up-step = < 1 >;
+			down-step = < 8 >;
+			default-step = < 1 >;
 			q0-empty-pct-thr = < 0 >;
 			q1-empty-pct-thr = < 0 >;
-			active-pct-thr = < 100 >;
+			active-pct-thr = < 50 >;
 		};
 		mif {
 			max = < 500 >;
