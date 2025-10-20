@@ -159,6 +159,16 @@ static int ect_parse_dvfs_domain(int parser_version, void *address, struct ect_d
                 }
             }
         }
+        
+         else if (strcmp(domain->domain_name, "G3D") == 0) {
+            level_list = (u32 *)domain->list_level;
+            for (j = 0; j < domain->num_of_level; j++) {
+                if (level_list[j] == 897000) {
+                    level_list[j] = 921000;
+                    break;
+                }
+            }
+        }
     }
 
     return 0;
@@ -272,6 +282,18 @@ static int ect_parse_pll(int parser_version, void *address, struct ect_pll *ect_
                     freq_list[j] = 3116000000;
                     freq_list[j+2] = 359;   // M
                     freq_list[j+4] = 45373; // K
+                    break;
+                }
+            }
+        }
+        
+        else if (strcmp(ect_pll->pll_name, "PLL_G3D") == 0) {
+            for (j = 0; j < ect_pll->num_of_frequency * 5; j += 5) {
+                if (freq_list[j] == 897000000) {
+                    freq_list[j] = 921000000;
+                    freq_list[j+1] = 4;   // M
+                    freq_list[j+2] = 141;   // M
+                    freq_list[j+4] = 0; // K
                     break;
                 }
             }
@@ -432,6 +454,13 @@ static int ect_parse_voltage_domain(int parser_version, void *address, struct ec
             for (j = 0; j < domain->num_of_level; j++) {
                 if (domain->level_list[j] == 3016) {
                     domain->level_list[j] = 3116;
+                    break;
+                }
+            }
+        } else if (strcmp(domain->domain_name, "G3D") == 0) {
+            for (j = 0; j < domain->num_of_level; j++) {
+                if (domain->level_list[j] == 897) {
+                    domain->level_list[j] = 921;
                     break;
                 }
             }
@@ -974,7 +1003,7 @@ err_domain_list_allocation:
 }
 
 #define GLOBAL_MHZ 3116
-#define GPU_MHZ 897
+#define GPU_MHZ 921
 
 static int ect_parse_gen_param_table(int parser_version, void *address, struct ect_gen_param_table *size)
 {
