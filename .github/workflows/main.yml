@@ -1,37 +1,55 @@
-name: Build Kernel
+name: X1s UI7
+
 on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'arch/arm64/configs/exynos9830_defconfig'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'arch/arm64/configs/exynos9830_defconfig'
   workflow_dispatch:
+    inputs:
+      force_build:
+        description: 'Force build even if exynos9830_defconfig is not modified (manual trigger)'
+        type: boolean
+        default: false
 
 jobs:
-  Build-Kernel:
-    strategy:
-      fail-fast: false
+  build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
 
     steps:
-    - name: Build Kernel
-      uses: vinix120hz/kernel_build_action@main
-      with:
-          kernel-url: https://github.com/Vinix120Hz/CyberInfintyKernel.git
-          kernel-dir: main
-          kernel-branch: main
-          config: x1slte.config
-          arch: arm64
-          aosp-gcc: false
-          aosp-clang: false
-          ksu: true
-          kvm: true
-          android-version: 15
-          aosp-clang-version: r416183b1
-          anykernel3: false
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
-    # New step to upload compilation artifacts
-    - name: Upload Build Artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: kernel-artifacts
-        path: |
-          O=dir/to/store/output/files/
-          anykernel3/*.zip
+      - name: Set up environment
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libarchive-tools ccache
+
+      - name: Build Kernel
+        run: |
+          chmod +x ./build.sh
+          ./build.sh -m x1s -k n
+
+      - name: Find built zips
+        id: find_zips
+        run: |
+          ZIP_FILES=$(find . -type f -name "*.zip")
+          if [[ -z "$ZIP_FILES" ]]; then
+            echo "No ZIPs found! Exiting."
+            exit 1
+          fi
+          echo "ZIP_FILES<<EOF" >> $GITHUB_ENV
+          echo "$ZIP_FILES" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      - name: Upload built kernels
+        uses: actions/upload-artifact@v4
+        with:
+          name: built-kernels
+          path: ${{ env.ZIP_FILES }}
