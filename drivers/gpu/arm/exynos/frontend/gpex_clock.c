@@ -417,59 +417,17 @@ int gpex_clock_lock_clock(gpex_clock_lock_cmd_t lock_command, gpex_clock_lock_ty
 	int i;
 	bool dirty = false;
 	unsigned long flags;
-	int max_lock_clk = 0;
-	int valid_clock = 0;
+	int max_lock_clk = 999999;
+	int valid_clock = 897000;
 
 	/* TODO: there's no need to check dvfs status anymore since dvfs and clock setting is separate */
 	//if (!gpex_dvfs_get_status())
 	//	return 0;
 
-	if ((lock_type < TMU_LOCK) || (lock_type >= NUMBER_LOCK)) {
-		GPU_LOG(MALI_EXYNOS_ERROR, "%s: invalid lock type is called (%d)\n", __func__,
-			lock_type);
-		return -1;
-	}
-
 	valid_clock = clock;
 
 	switch (lock_command) {
-	case GPU_CLOCK_MAX_LOCK:
-		gpex_dvfs_spin_lock(&flags);
-		if (gpex_clock_get_table_idx(clock) < 0) {
-			valid_clock = gpex_get_valid_gpu_clock(clock, false);
-			if (valid_clock < 0) {
-				gpex_dvfs_spin_unlock(&flags);
-				GPU_LOG(MALI_EXYNOS_ERROR,
-					"clock locking(type:%d) error: invalid clock value %d \n",
-					lock_command, clock);
-				return -1;
-			}
-			GPU_LOG(MALI_EXYNOS_DEBUG, "clock is changed to valid value[%d->%d]", clock,
-				valid_clock);
-		}
-		clk_info.user_max_lock[lock_type] = valid_clock;
-		clk_info.max_lock = valid_clock;
 
-		if (clk_info.max_lock > 0) {
-			for (i = 0; i < NUMBER_LOCK; i++) {
-				if (clk_info.user_max_lock[i] > 0)
-					clk_info.max_lock =
-						MIN(clk_info.max_lock, clk_info.user_max_lock[i]);
-			}
-		} else {
-			clk_info.max_lock = valid_clock;
-		}
-
-		gpex_dvfs_spin_unlock(&flags);
-
-		if ((clk_info.max_lock > 0) && (gpex_clock_get_cur_clock() >= clk_info.max_lock))
-			gpex_clock_set(clk_info.max_lock);
-
-		GPU_LOG_DETAILED(MALI_EXYNOS_DEBUG, LSI_GPU_MAX_LOCK, lock_type, clock,
-				 "lock max clk[%d], user lock[%d], current clk[%d]\n",
-				 clk_info.max_lock, clk_info.user_max_lock[lock_type],
-				 gpex_clock_get_cur_clock());
-		break;
 	case GPU_CLOCK_MIN_LOCK:
 		gpex_dvfs_spin_lock(&flags);
 		if (gpex_clock_get_table_idx(clock) < 0) {
