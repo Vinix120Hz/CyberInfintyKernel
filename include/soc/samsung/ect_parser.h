@@ -53,7 +53,7 @@
 #define SYSFS_NODE_NEW_TIMING_PARAM	"new_timing_parameter"
 #define SYSFS_NODE_PIDTM		"pidtm"
 
-#define PMIC_VOLTAGE_STEP	(7000)
+#define PMIC_VOLTAGE_STEP	(6250)
 
 #define MINMAX_ASV_FUSING		(0)
 #define MINMAX_ASV_TABLE		(1)
