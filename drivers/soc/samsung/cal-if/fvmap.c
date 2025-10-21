@@ -12,8 +12,8 @@
 #include "vclk.h"
 #include "ra.h"
 
-#define FVMAP_SIZE		(SZ_16K)
-#define STEP_UV			(7000)
+#define FVMAP_SIZE		(SZ_8K)
+#define STEP_UV			(6250)
 
 void __iomem *fvmap_base;
 void __iomem *sram_fvmap_base;
