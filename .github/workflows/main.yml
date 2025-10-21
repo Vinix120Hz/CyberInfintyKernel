@@ -2,11 +2,11 @@ name: R8S
 
 on:
   push:
-    branches: [ main ]
+    branches: [ RAGNARØK ]
     paths:
       - 'arch/arm64/configs/exynos9830_defconfig'
   pull_request:
-    branches: [ main ]
+    branches: [ RAGNARØK ]
     paths:
       - 'arch/arm64/configs/exynos9830_defconfig'
   workflow_dispatch:
