@@ -560,10 +560,10 @@ __ATTR(domain##_grp_volt, 0400, show_asv_g_spec_##domain##_grp_volt, NULL)
 	&asv_g_spec_##domain##_fused_volt.attr,							\
 	&asv_g_spec_##domain##_grp_volt.attr
 
-asv_g_spec(cpucl0, 0);
-asv_g_spec(cpucl1, 1);
-asv_g_spec(cpucl2, 2);
-asv_g_spec(g3d, 3);
+asv_g_spec(cpucl0, 2);
+asv_g_spec(cpucl1, 3);
+asv_g_spec(cpucl2, 4);
+asv_g_spec(g3d, 5);
 
 static struct attribute *asv_g_spec_attrs[] = {
 	asv_g_spec_attr(cpucl0),
@@ -628,7 +628,7 @@ static inline ssize_t print_fvmap(char *buf, int start, int end)
 		pr_info("  num_of_members : %d\n", fvmap_header[i].num_of_members);
 		for (j = 0; j < fvmap_header[i].num_of_lv; j++)
 			pr_info("  lv : [%7d], volt = %d uV (%d %%) \n",
-				new->table[j].rate, new->table[j].volt,
+				cur->table[j].rate, cur->table[j].volt,
 				volt_offset_percent);
 
 		if (buf != NULL && i >= start && i < end) {
@@ -744,21 +744,12 @@ static void fvmap_copy_from_sram(void __iomem *map_base, void __iomem *sram_base
 				pr_info("  DVFS CMU addr:0x%x\n", member_addr);
 		}
 
-		for (j = 0; j < fvmap_header[i].num_of_pll; j++) {
-			clks = sram_base + fvmap_header[i].o_members;
-			plls = sram_base + clks->addr[j];
-			clk_node = cmucal_get_node(vclk->list[j]);
-			if (clk_node == NULL)
-				continue;
-			paddr_offset = clk_node->paddr & 0xFFFF;
-			fvaddr_offset = plls->addr & 0xFFFF;
-			if (paddr_offset == fvaddr_offset)
-				continue;
-
-			clk_node->paddr += fvaddr_offset - paddr_offset;
-			clk_node->pll_con0 += fvaddr_offset - paddr_offset;
-			if (clk_node->pll_con1)
-				clk_node->pll_con1 += (unsigned long long)(fvaddr_offset - paddr_offset);
+		for (j = 0; j < fvmap_header[i].num_of_lv; j++) {
+			new->table[j].rate = old->table[j].rate;
+			new->table[j].volt = old->table[j].volt;
+			pr_info("  lv : [%7d], volt = %d uV (%d %%) \n",
+					new->table[j].rate, new->table[j].volt,
+					volt_offset_percent);
 		}
 	}
 }
