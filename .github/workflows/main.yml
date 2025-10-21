@@ -1,0 +1,55 @@
+name: R8S
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'arch/arm64/configs/exynos9830_defconfig'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'arch/arm64/configs/exynos9830_defconfig'
+  workflow_dispatch:
+    inputs:
+      force_build:
+        description: 'Force build even if exynos9830_defconfig is not modified (manual trigger)'
+        type: boolean
+        default: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Set up environment
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libarchive-tools ccache
+
+      - name: Build Kernel
+        run: |
+          chmod +x ./build.sh
+          ./build.sh -m r8s -k n
+
+      - name: Find built zips
+        id: find_zips
+        run: |
+          ZIP_FILES=$(find . -type f -name "*.zip")
+          if [[ -z "$ZIP_FILES" ]]; then
+            echo "No ZIPs found! Exiting."
+            exit 1
+          fi
+          echo "ZIP_FILES<<EOF" >> $GITHUB_ENV
+          echo "$ZIP_FILES" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      - name: Upload built kernels
+        uses: actions/upload-artifact@v4
+        with:
+          name: built-kernels
+          path: ${{ env.ZIP_FILES }}
