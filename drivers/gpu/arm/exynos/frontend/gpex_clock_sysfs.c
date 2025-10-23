@@ -145,7 +145,7 @@ GPEX_STATIC ssize_t set_max_lock_dvfs(const char *buf, size_t count)
 {
 	int ret, clock = 0;
 
-	if (sysfs_streq("0", buf)) {
+	if (gpex_clock_get_unlock_freqs_status() || sysfs_streq("0", buf)) {
 		clk_info->user_max_lock_input = 0;
 		gpex_clock_lock_clock(GPU_CLOCK_MAX_UNLOCK, SYSFS_LOCK, 0);
 	} else {
