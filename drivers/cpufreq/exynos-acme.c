@@ -37,8 +37,6 @@
 #include "exynos-acme.h"
 #include "exynos-ufc.h"
 
-#include "soc/samsung/frequency-calibration.h"
-
 /*
  * list head of cpufreq domain
  */
@@ -1492,7 +1490,7 @@ static __init void init_slack_timer(struct exynos_cpufreq_domain *domain,
 	}
 }
 
-unsigned long arg_cpu_min_c1 = CPUCL0_MINFREQ;
+unsigned long arg_cpu_min_c1 = 949000;
 
 static int __init cpufreq_read_cpu_min_c1(char *cpu_min_c1) /*integer remains in memory after function call*/
 {
@@ -1509,7 +1507,7 @@ static int __init cpufreq_read_cpu_min_c1(char *cpu_min_c1) /*integer remains in
 }
 __setup("cpu_min_c1=", cpufreq_read_cpu_min_c1);
 
-unsigned long arg_cpu_min_c2 = CPUCL1_MINFREQ; 
+unsigned long arg_cpu_min_c2 = 962000; 
 
 static __init int cpufreq_read_cpu_min_c2(char *cpu_min_c2)
 {
@@ -1526,7 +1524,7 @@ static __init int cpufreq_read_cpu_min_c2(char *cpu_min_c2)
 }
 __setup("cpu_min_c2=", cpufreq_read_cpu_min_c2);
 
-unsigned long arg_cpu_min_c3 = CPUCL2_MINFREQ; 
+unsigned long arg_cpu_min_c3 = 962000; 
 
 static __init int cpufreq_read_cpu_min_c3(char *cpu_min_c3)
 {
@@ -1543,7 +1541,7 @@ static __init int cpufreq_read_cpu_min_c3(char *cpu_min_c3)
 }
 __setup("cpu_min_c3=", cpufreq_read_cpu_min_c3);
 
-unsigned long arg_gpu_min = G3D_MIN_FREQ;
+unsigned long arg_gpu_min = 156000;
 
 static __init int cpufreq_read_gpu_min(char *gpu_min)
 {
@@ -1577,7 +1575,7 @@ static __init int cpufreq_read_mif_min(char *mif_min)
 }
 __setup("mif_min=", cpufreq_read_mif_min);
 
-unsigned long arg_cpu_max_c1 = CPUCL0_FREQ_NEW;
+unsigned long arg_cpu_max_c1 = 2106000;
 
 static int __init cpufreq_read_cpu_max_c1(char *cpu_max_c1) /*integer remains in memory after function call*/
 {
@@ -1594,7 +1592,7 @@ static int __init cpufreq_read_cpu_max_c1(char *cpu_max_c1) /*integer remains in
 }
 __setup("cpu_max_c1=", cpufreq_read_cpu_max_c1);
 
-unsigned long arg_cpu_max_c2 = CPUCL1_FREQ_NEW;
+unsigned long arg_cpu_max_c2 = 2600000;
 
 static __init int cpufreq_read_cpu_max_c2(char *cpu_max_c2)
 {
@@ -1611,7 +1609,7 @@ static __init int cpufreq_read_cpu_max_c2(char *cpu_max_c2)
 }
 __setup("cpu_max_c2=", cpufreq_read_cpu_max_c2);
 
-unsigned long arg_cpu_max_c3 = CPUCL2_FREQ_NEW;
+unsigned long arg_cpu_max_c3 = 2730000;
 
 static __init int cpufreq_read_cpu_max_c3(char *cpu_max_c3)
 {
@@ -1628,7 +1626,7 @@ static __init int cpufreq_read_cpu_max_c3(char *cpu_max_c3)
 }
 __setup("cpu_max_c3=", cpufreq_read_cpu_max_c3);
 
-unsigned long arg_gpu_max = G3D_FREQ_NEW;
+unsigned long arg_gpu_max = 897000;
 
 static __init int cpufreq_read_gpu_max(char *gpu_max)
 {

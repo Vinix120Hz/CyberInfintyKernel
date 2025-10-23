@@ -208,38 +208,9 @@ int kbase_hwaccess_pm_init(struct kbase_device *kbdev)
 		kbdev->pm.backend.callback_power_runtime_gpu_active &&
 		kbdev->pm.backend.callback_power_runtime_gpu_idle;
 #endif
+		kbdev->pm.backend.l2_always_on = true;
 
-	if (IS_ENABLED(CONFIG_MALI_HW_ERRATA_1485982_NOT_AFFECTED)) {
-		kbdev->pm.backend.l2_always_on = false;
 		kbdev->pm.backend.gpu_clock_slow_down_wa = false;
-
-		return 0;
-	}
-
-	/* WA1: L2 always_on for GPUs being affected by GPU2017-1336 */
-	if (!IS_ENABLED(CONFIG_MALI_HW_ERRATA_1485982_USE_CLOCK_ALTERNATIVE)) {
-		kbdev->pm.backend.gpu_clock_slow_down_wa = false;
-		if (kbase_hw_has_issue(kbdev, BASE_HW_ISSUE_GPU2017_1336))
-			kbdev->pm.backend.l2_always_on = true;
-		else
-			kbdev->pm.backend.l2_always_on = false;
-
-		return 0;
-	}
-
-	/* WA3: Clock slow down for GPUs being affected by GPU2017-1336 */
-	kbdev->pm.backend.l2_always_on = false;
-	if (kbase_hw_has_issue(kbdev, BASE_HW_ISSUE_GPU2017_1336)) {
-		kbdev->pm.backend.gpu_clock_slow_down_wa = true;
-		kbdev->pm.backend.gpu_clock_suspend_freq = 0;
-		kbdev->pm.backend.gpu_clock_slow_down_desired = true;
-		kbdev->pm.backend.gpu_clock_slowed_down = false;
-		INIT_WORK(&kbdev->pm.backend.gpu_clock_control_work,
-			kbase_pm_gpu_clock_control_worker);
-	} else
-		kbdev->pm.backend.gpu_clock_slow_down_wa = false;
-
-	return 0;
 
 pm_state_machine_fail:
 	kbase_pm_policy_term(kbdev);

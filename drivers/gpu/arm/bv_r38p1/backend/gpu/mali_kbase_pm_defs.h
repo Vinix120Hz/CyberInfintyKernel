@@ -27,7 +27,6 @@
 #define _KBASE_PM_HWACCESS_DEFS_H_
 
 #include "mali_kbase_pm_always_on.h"
-#include "mali_kbase_pm_coarse_demand.h"
 
 #if defined(CONFIG_PM_RUNTIME) || defined(CONFIG_PM)
 #define KBASE_PM_RUNTIME 1
@@ -209,7 +208,6 @@ struct kbasep_pm_tick_timer_state {
 
 union kbase_pm_policy_data {
 	struct kbasep_pm_policy_always_on always_on;
-	struct kbasep_pm_policy_coarse_demand coarse_demand;
 };
 
 /**
@@ -508,7 +506,6 @@ struct kbase_pm_backend_data {
 #define ALWAYS_ON_PM_SCHED_FLAGS (CSF_DYNAMIC_PM_CORE_KEEP_ON | \
 				  CSF_DYNAMIC_PM_SCHED_IGNORE_IDLE | \
 				  CSF_DYNAMIC_PM_SCHED_NO_SUSPEND)
-#define COARSE_ON_DEMAND_PM_SCHED_FLAGS (0)
 #if !MALI_CUSTOMER_RELEASE
 #define ALWAYS_ON_DEMAND_PM_SCHED_FLAGS (CSF_DYNAMIC_PM_SCHED_IGNORE_IDLE)
 #endif
@@ -516,10 +513,6 @@ struct kbase_pm_backend_data {
 
 /* List of policy IDs */
 enum kbase_pm_policy_id {
-	KBASE_PM_POLICY_ID_COARSE_DEMAND,
-#if !MALI_CUSTOMER_RELEASE
-	KBASE_PM_POLICY_ID_ALWAYS_ON_DEMAND,
-#endif
 	KBASE_PM_POLICY_ID_ALWAYS_ON
 };
 
@@ -568,8 +561,7 @@ enum kbase_pm_policy_event {
  *                      It is used purely for debugging.
  * @pm_sched_flags: Policy associated with CSF PM scheduling operational flags.
  *                  Pre-defined required flags exist for each of the
- *                  ARM released policies, such as 'always_on', 'coarse_demand'
- *                  and etc.
+ *                  ARM released policies, such as 'always_on' and etc.
  * Each power policy exposes a (static) instance of this structure which
  * contains function pointers to the policy's methods.
  */
@@ -639,8 +631,7 @@ struct kbase_pm_policy {
 #if MALI_USE_CSF
 	/* Policy associated with CSF PM scheduling operational flags.
 	 * There are pre-defined required flags exist for each of the
-	 * ARM released policies, such as 'always_on', 'coarse_demand'
-	 * and etc.
+	 * ARM released policies, such as 'always_on' and etc.
 	 */
 	unsigned int pm_sched_flags;
 #endif
