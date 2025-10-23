@@ -33,6 +33,8 @@
 
 #include "gpex_clock_internal.h"
 
+#include "soc/samsung/frequency-calibration.h"
+
 #define CPU_MAX INT_MAX
 
 static struct _clock_info clk_info;
@@ -417,8 +419,8 @@ int gpex_clock_lock_clock(gpex_clock_lock_cmd_t lock_command, gpex_clock_lock_ty
 	int i;
 	bool dirty = false;
 	unsigned long flags;
-	int max_lock_clk = 897000;
-	int valid_clock = 897000;
+	int max_lock_clk = G3D_FREQ_NEW;
+	int valid_clock = G3D_FREQ_NEW;
 
 	/* TODO: there's no need to check dvfs status anymore since dvfs and clock setting is separate */
 	//if (!gpex_dvfs_get_status())
