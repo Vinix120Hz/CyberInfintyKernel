@@ -77,7 +77,10 @@ bool gpex_clock_get_unlock_freqs_status()
 {
 	return clk_info.unlock_freqs;
 }
-int gpex_clock_update_config_data_from_dt(void)
+/*******************************************
+ * static helper functions
+ ******************************************/
+static int gpex_clock_update_config_data_from_dt(void)
 {
 	int ret = 0;
 	struct freq_volt *fv_array;
@@ -122,9 +125,7 @@ int gpex_clock_update_config_data_from_dt(void)
 
 	return 0;
 }
-/*******************************************
- * static helper functions
- ******************************************/
+
 static int set_clock_using_calapi(int clk)
 {
 	int ret = 0;
