@@ -25,9 +25,8 @@ menuconfig MALI_MIDGARD
 	select PM_DEVFREQ
 	select DEVFREQ_THERMAL
 	select FW_LOADER
-	default m if SOC_EXYNOS2100
 	default y if SOC_EXYNOS9830
-	default n
+	default y
 	help
 	  Enable this option to build support for a ARM Mali Midgard GPU.
 
@@ -64,9 +63,8 @@ config MALI_DEVFREQ
 	bool "Enable devfreq support for Mali"
 	depends on MALI_MIDGARD && PM_DEVFREQ
 	select DEVFREQ_GOV_SIMPLE_ONDEMAND
-	default n if SOC_EXYNOS2100
 	default n if SOC_EXYNOS9830
-	default y
+	default n
 	help
 	  Support devfreq for Mali.
 
@@ -93,7 +91,7 @@ config MALI_MIDGARD_ENABLE_TRACE
 	bool "Enable kbase tracing"
 	depends on MALI_MIDGARD
 	default y if MALI_DEBUG
-	default n
+	default y
 	help
 	  Enables tracing in kbase. Trace log available through
 	  the "mali_trace" debugfs file, when the CONFIG_DEBUG_FS is enabled
@@ -123,7 +121,7 @@ config MALI_DMA_BUF_MAP_ON_DEMAND
 config MALI_DMA_BUF_LEGACY_COMPAT
 	bool "Enable legacy compatibility cache flush on dma-buf map"
 	depends on MALI_MIDGARD && !MALI_DMA_BUF_MAP_ON_DEMAND
-	default n
+	default y
 	help
 	  This option enables compatibility with legacy dma-buf mapping
 	  behavior, then the dma-buf is mapped on import, by adding cache
@@ -142,9 +140,8 @@ config MALI_CORESIGHT
 menuconfig MALI_EXPERT
 	depends on MALI_MIDGARD
 	bool "Enable Expert Settings"
-	default y if SOC_EXYNOS2100
 	default y if SOC_EXYNOS9830
-	default n
+	default y
 	help
 	  Enabling this option and modifying the default settings may produce
 	  a driver with performance or other limitations.
@@ -355,9 +352,8 @@ config MALI_PWRSOFT_765
 config MALI_HW_ERRATA_1485982_NOT_AFFECTED
 	bool "Disable workaround for BASE_HW_ISSUE_GPU2017_1336"
 	depends on MALI_MIDGARD && MALI_EXPERT
-	default y if SOC_EXYNOS2100
 	default y if SOC_EXYNOS9830
-	default n
+	default y
 	help
 	  This option disables the default workaround for GPU2017-1336. The
 	  workaround keeps the L2 cache powered up except for powerdown and reset.
@@ -395,15 +391,12 @@ config MALI_SEC_DEPENDENCY_CHECK
 endif
 
 config MALI_ARBITRATION
-	tristate "Enable Virtualization reference code"
+	bool "Enable Virtualization reference code"
 	depends on MALI_MIDGARD
 	default n
 	help
 	  Enables the build of several reference modules used in the reference
 	  virtualization setup for Mali
 	  If unsure, say N.
-
-
-# source "drivers/gpu/arm/midgard/tests/Kconfig"
 
 endif
