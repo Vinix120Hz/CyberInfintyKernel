@@ -560,6 +560,7 @@ GPEX_STATIC ssize_t show_volt_table(char *buf)
 CREATE_SYSFS_DEVICE_READ_FUNCTION(show_volt_table)
 
 GPEX_STATIC ssize_t set_volt_table(const char *buf, size_t count)
+{
 	int max = gpex_clock_get_table_idx(clk_info->gpu_max_clock);
 	int min = gpex_clock_get_table_idx(clk_info->gpu_min_clock);
 	int i, tokens;
