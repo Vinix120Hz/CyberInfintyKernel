@@ -39,6 +39,7 @@
 #include <mali_kbase_cs_experimental.h>
 
 #include <mali_kbase_caps.h>
+
 #include <mali_exynos_kbase_entrypoint.h>
 
 /* Return whether katom will run on the GPU or not. Currently only soft jobs and
@@ -115,7 +116,6 @@ static bool jd_run_atom(struct kbase_jd_atom *katom)
 		}
 		return false;
 	}
-
 
 	if (katom->status != KBASE_JD_ATOM_STATE_IN_JS)
 		mali_exynos_set_count(katom, KBASE_JD_ATOM_STATE_IN_JS, false);
@@ -973,7 +973,6 @@ static bool jd_submit_atom(struct kbase_context *const kctx,
 			if (dep_atom_type != BASE_JD_DEP_TYPE_ORDER &&
 					dep_atom_type != BASE_JD_DEP_TYPE_DATA) {
 				katom->event_code = BASE_JD_EVENT_JOB_CONFIG_FAULT;
-
 				mali_exynos_set_count(katom, KBASE_JD_ATOM_STATE_COMPLETED, false);
 				katom->status = KBASE_JD_ATOM_STATE_COMPLETED;
 				dev_dbg(kbdev->dev,
@@ -1069,7 +1068,6 @@ static bool jd_submit_atom(struct kbase_context *const kctx,
 		mali_exynos_set_count(katom, KBASE_JD_ATOM_STATE_QUEUED, false);
 
 	katom->status = KBASE_JD_ATOM_STATE_QUEUED;
-
 	dev_dbg(kbdev->dev, "Atom %pK status to queued\n", (void *)katom);
 
 	/* For invalid priority, be most lenient and choose the default */
@@ -1174,7 +1172,6 @@ static bool jd_submit_atom(struct kbase_context *const kctx,
 		}
 
 		mali_exynos_set_thread_priority(kctx);
-		mali_exynos_set_thread_affinity();
 	} else {
 		/* Soft-job */
 		if (kbase_prepare_soft_job(katom) != 0) {

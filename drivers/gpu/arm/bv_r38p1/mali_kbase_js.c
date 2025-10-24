@@ -37,6 +37,7 @@
 #include <linux/priority_control_manager.h>
 
 #include <mali_exynos_kbase_entrypoint.h>
+
 /*
  * Private types
  */
@@ -3476,8 +3477,6 @@ struct kbase_jd_atom *kbase_js_complete_atom(struct kbase_jd_atom *katom,
 		(void *)katom, (void *)kctx, (void *)x_dep);
 
 	lockdep_assert_held(&kctx->kbdev->hwaccess_lock);
-
-	mali_exynos_sum_jobs_time(katom->slot_nr);
 
 	if ((katom->core_req & BASE_JD_REQ_END_RENDERPASS) &&
 		!js_end_rp_is_complete(katom)) {
