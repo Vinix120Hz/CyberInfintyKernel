@@ -504,6 +504,7 @@ static void kbase_pm_metrics_active_calc(struct kbase_device *kbdev)
 			kbdev->pm.backend.metrics.gpu_active = true;
 
 			mali_exynos_set_jobslot_status(js, true);
+
 		} else {
 			trace_sysgraph(SGR_INACTIVE, 0, js);
 		}
