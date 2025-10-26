@@ -1,4 +1,4 @@
-name: R8S
+name: X1S
 
 on:
   push:
@@ -34,7 +34,7 @@ jobs:
       - name: Build Kernel
         run: |
           chmod +x ./build.sh
-          ./build.sh -m r8s -k n
+          ./build.sh -m x1s -k n
 
       - name: Find built zips
         id: find_zips
