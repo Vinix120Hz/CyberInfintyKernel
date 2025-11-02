@@ -34,7 +34,7 @@ jobs:
       - name: Build Kernel
         run: |
           chmod +x ./build.sh
-          ./build.sh -m x1s -k n
+          ./build.sh -m x1s -k y
 
       - name: Find built zips
         id: find_zips
