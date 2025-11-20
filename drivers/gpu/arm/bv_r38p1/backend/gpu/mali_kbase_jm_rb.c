@@ -39,7 +39,6 @@
 
 #include <mali_exynos_kbase_entrypoint.h>
 
-
 /**
  * SLOT_RB_EMPTY - Return whether the specified ringbuffer is empty.
  *
