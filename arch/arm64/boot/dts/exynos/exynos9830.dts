@@ -401,34 +401,34 @@
 
 		energy-data {
 			ANANKE_ENERGY: ananke-energy {
-				mips-per-mhz = <320>;
-				power-coefficient = <100>;
-				mips-per-mhz-s = <220>;
-				power-coefficient-s = <90>;
-				static-power-coefficient = <35>;
+				mips-per-mhz = <270>;
+				power-coefficient = <120>;
+				mips-per-mhz-s = <184>;
+				power-coefficient-s = <106>;
+				static-power-coefficient = <39>;
 
-				efficiency-weight = <250>;
-				efficiency-weight-perf = <150>;
+				efficiency-weight = <100>;
+				efficiency-weight-perf = <200>;
 			};
 			ENYO_ENERGY: enyo-energy {
-				mips-per-mhz = <720>;
-				power-coefficient = <300>;
-				mips-per-mhz-s = <380>;
-				power-coefficient-s = <240>;
-				static-power-coefficient = <70>;
+				mips-per-mhz = <673>;
+				power-coefficient = <370>;
+				mips-per-mhz-s = <335>;
+				power-coefficient-s = <288>;
+				static-power-coefficient = <81>;
 
-				efficiency-weight = <300>;
-				efficiency-weight-perf = <180>;
+				efficiency-weight = <200>;
+				efficiency-weight-perf = <200>;
 			};
 			LION_ENERGY: lion-energy {
-				mips-per-mhz = <720>;
-				power-coefficient = <1200>;
-				mips-per-mhz-s = <240>;
-				power-coefficient-s = <800>;
-				static-power-coefficient = <350>;
+				mips-per-mhz = <806>;
+				power-coefficient = <860>;
+				mips-per-mhz-s = <285>;
+				power-coefficient-s = <559>;
+				static-power-coefficient = <270>;
 
-				efficiency-weight = <20>;
-				efficiency-weight-perf = <180>;
+				efficiency-weight = <33>;
+				efficiency-weight-perf = <300>;
 			};
 		};
 	};
