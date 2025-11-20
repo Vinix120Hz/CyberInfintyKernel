@@ -1130,9 +1130,6 @@ void sec_bootstat_get_cpuinfo(int *freq, int *online)
 /*********************************************************************
  *                  INITIALIZE EXYNOS CPUFREQ DRIVER                 *
  *********************************************************************/
-
-static int cpu_undervolt = 25000;
-
 static void print_domain_info(struct exynos_cpufreq_domain *domain)
 {
 	int i;
@@ -1201,9 +1198,6 @@ static __init int init_table(struct exynos_cpufreq_domain *domain)
 
 	for (index = 0; index < domain->table_size; index++) {
 		domain->freq_table[index].driver_data = index;
-
-		/* Undervolt with uV value */
-		volt_table[index] -= cpu_undervolt;
 
 		if (table[index] > domain->max_freq)
 			domain->freq_table[index].frequency = CPUFREQ_ENTRY_INVALID;
@@ -1490,7 +1484,8 @@ static __init void init_slack_timer(struct exynos_cpufreq_domain *domain,
 	}
 }
 
-unsigned long arg_cpu_min_c1 = 949000;
+/*Underclocking little cores to 182 MHz*/
+unsigned long arg_cpu_min_c1 __ro_after_init = 182000; 
 
 static int __init cpufreq_read_cpu_min_c1(char *cpu_min_c1) /*integer remains in memory after function call*/
 {
@@ -1507,7 +1502,8 @@ static int __init cpufreq_read_cpu_min_c1(char *cpu_min_c1) /*integer remains in
 }
 __setup("cpu_min_c1=", cpufreq_read_cpu_min_c1);
 
-unsigned long arg_cpu_min_c2 = 962000; 
+/*Underclocking perf cores to 377 MHz*/
+unsigned long arg_cpu_min_c2 __ro_after_init = 377000; 
 
 static __init int cpufreq_read_cpu_min_c2(char *cpu_min_c2)
 {
@@ -1524,7 +1520,8 @@ static __init int cpufreq_read_cpu_min_c2(char *cpu_min_c2)
 }
 __setup("cpu_min_c2=", cpufreq_read_cpu_min_c2);
 
-unsigned long arg_cpu_min_c3 = 962000; 
+/*Underclocking prime cores to 546 MHz*/
+unsigned long arg_cpu_min_c3 __ro_after_init = 546000; 
 
 static __init int cpufreq_read_cpu_min_c3(char *cpu_min_c3)
 {
@@ -1541,7 +1538,7 @@ static __init int cpufreq_read_cpu_min_c3(char *cpu_min_c3)
 }
 __setup("cpu_min_c3=", cpufreq_read_cpu_min_c3);
 
-unsigned long arg_gpu_min = 156000;
+unsigned long arg_gpu_min __ro_after_init = 572000;
 
 static __init int cpufreq_read_gpu_min(char *gpu_min)
 {
@@ -1558,7 +1555,7 @@ static __init int cpufreq_read_gpu_min(char *gpu_min)
 }
 __setup("gpu_min=", cpufreq_read_gpu_min);
 
-unsigned long arg_mif_min = 421000;
+unsigned long arg_mif_min __ro_after_init = 421000;
 
 static __init int cpufreq_read_mif_min(char *mif_min)
 {
@@ -1575,9 +1572,8 @@ static __init int cpufreq_read_mif_min(char *mif_min)
 }
 __setup("mif_min=", cpufreq_read_mif_min);
 
-
-/*Overclocking little cores to 2210 MHz*/
-unsigned long arg_cpu_max_c1 = 2210000;
+/*Overclocking little cores to 2316 MHz*/
+unsigned long arg_cpu_max_c1 __ro_after_init = 2316000; /*max_cpu_freq=x MHz for little cores*/
 
 static int __init cpufreq_read_cpu_max_c1(char *cpu_max_c1) /*integer remains in memory after function call*/
 {
@@ -1594,8 +1590,8 @@ static int __init cpufreq_read_cpu_max_c1(char *cpu_max_c1) /*integer remains in
 }
 __setup("cpu_max_c1=", cpufreq_read_cpu_max_c1);
 
-/*Overclocking perf cores to 2730 MHz*/
-unsigned long arg_cpu_max_c2 = 2730000;
+/*Overclocking perf cores to 2803 MHz*/
+unsigned long arg_cpu_max_c2 __ro_after_init = 2730000; /*max_cpu_freq=x MHz*/
 
 static __init int cpufreq_read_cpu_max_c2(char *cpu_max_c2)
 {
@@ -1612,8 +1608,8 @@ static __init int cpufreq_read_cpu_max_c2(char *cpu_max_c2)
 }
 __setup("cpu_max_c2=", cpufreq_read_cpu_max_c2);
 
-/*Overclocking prime cores to 3116 MHz*/
-unsigned long arg_cpu_max_c3 = 3116000;
+/*Overclocking prime cores to 3321 MHz*/
+unsigned long arg_cpu_max_c3 __ro_after_init = 3321000; /*max_cpu_freq=x MHz*/
 
 static __init int cpufreq_read_cpu_max_c3(char *cpu_max_c3)
 {
@@ -1630,7 +1626,7 @@ static __init int cpufreq_read_cpu_max_c3(char *cpu_max_c3)
 }
 __setup("cpu_max_c3=", cpufreq_read_cpu_max_c3);
 
-unsigned long arg_gpu_max = 897000;
+unsigned long arg_gpu_max __ro_after_init = 930000;
 
 static __init int cpufreq_read_gpu_max(char *gpu_max)
 {
@@ -1647,7 +1643,7 @@ static __init int cpufreq_read_gpu_max(char *gpu_max)
 }
 __setup("gpu_max=", cpufreq_read_gpu_max);
 
-unsigned long arg_mif_max = 2730000;
+unsigned long arg_mif_max __ro_after_init = 3133000;
 
 static __init int cpufreq_read_mif_max(char *mif_max)
 {
