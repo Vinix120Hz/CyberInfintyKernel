@@ -221,7 +221,6 @@ struct prfcnt_enum_sample_info {
 
 /**
  * struct prfcnt_enum_item - Performance counter enumeration item.
- * @padding:         Padding bytes.
  * @hdr:             Header describing the type of item in the list.
  * @u:               Structure containing discriptor for enumeration item type.
  * @u.block_counter: Performance counter block descriptor.
@@ -230,7 +229,6 @@ struct prfcnt_enum_sample_info {
  */
 struct prfcnt_enum_item {
 	struct prfcnt_item_header hdr;
-	__u8 padding[4];
 	/** union u - union of block_counter and request */
 	union {
 		struct prfcnt_enum_block_counter block_counter;
@@ -307,7 +305,6 @@ struct prfcnt_request_scope {
 
 /**
  * struct prfcnt_request_item - Performance counter request item.
- * @padding:      Padding bytes.
  * @hdr:          Header describing the type of item in the list.
  * @u:            Structure containing descriptor for request type.
  * @u.req_mode:   Mode request descriptor.
@@ -316,7 +313,6 @@ struct prfcnt_request_scope {
  */
 struct prfcnt_request_item {
 	struct prfcnt_item_header hdr;
-	__u8 padding[4];
 	/** union u - union on req_mode and req_enable */
 	union {
 		struct prfcnt_request_mode req_mode;
@@ -421,7 +417,6 @@ struct prfcnt_block_metadata {
 
 /**
  * struct prfcnt_metadata - Performance counter metadata item.
- * @padding:     Padding bytes.
  * @hdr:         Header describing the type of item in the list.
  * @u:           Structure containing descriptor for metadata type.
  * @u.sample_md: Counter sample data metadata descriptor.
@@ -430,7 +425,6 @@ struct prfcnt_block_metadata {
  */
 struct prfcnt_metadata {
 	struct prfcnt_item_header hdr;
-	__u8 padding[4];
 	union {
 		struct prfcnt_sample_metadata sample_md;
 		struct prfcnt_clock_metadata clock_md;
