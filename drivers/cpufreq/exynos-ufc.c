@@ -9,12 +9,7 @@
  * published by the Free Software Foundation.
  */
 #define pr_fmt(fmt)	KBUILD_MODNAME ": " fmt
-
-/*
- * Log2 of the number of scale size. The frequencies are scaled up or
- * down as the multiple of this number. Default is 8.
- */
-#define SCALE_SIZE 2
+#define SCALE_SIZE 8
 
 #define AUTO_FILL 1
 #define NOT_FILL 0
