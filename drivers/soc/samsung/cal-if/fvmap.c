@@ -7,16 +7,23 @@
 #include <linux/kobject.h>
 #include <soc/samsung/cal-if.h>
 
+#include "soc/samsung/frequency-calibration.h"
+
 #include "fvmap.h"
 #include "cmucal.h"
 #include "vclk.h"
 #include "ra.h"
 
-#define FVMAP_SIZE		(SZ_8K)
+#define FVMAP_SIZE		(SZ_16K)
 #define STEP_UV			(6250)
 
 void __iomem *fvmap_base;
 void __iomem *sram_fvmap_base;
+
+static unsigned int cpucl0_calibration = CPUCL0_FREQ_NEW;
+static unsigned int cpucl1_calibration = CPUCL1_FREQ_NEW;
+static unsigned int cpucl2_calibration = CPUCL2_FREQ_NEW;
+static unsigned int g3d_calibration    = G3D_FREQ_NEW;
 
 static int init_margin_table[MAX_MARGIN_ID];
 static int volt_offset_percent = 0;
@@ -744,13 +751,37 @@ static void fvmap_copy_from_sram(void __iomem *map_base, void __iomem *sram_base
 				pr_info("  DVFS CMU addr:0x%x\n", member_addr);
 		}
 
-		for (j = 0; j < fvmap_header[i].num_of_lv; j++) {
-			new->table[j].rate = old->table[j].rate;
-			new->table[j].volt = old->table[j].volt;
-			pr_info("  lv : [%7d], volt = %d uV (%d %%) \n",
-					new->table[j].rate, new->table[j].volt,
-					volt_offset_percent);
-		}
+		 for (j = 0; j < fvmap_header[i].num_of_lv; j++) {
+            new->table[j].rate = old->table[j].rate;
+            new->table[j].volt = old->table[j].volt;
+
+            if (vclk && vclk->name) {
+
+                if (strcmp(vclk->name, "CPUCL0") == 0) {
+                    if (new->table[j].rate == CPUCL2_FREQ_OLD)
+                        new->table[j].rate = CPUCL2_FREQ_NEW;
+                }
+                
+                else if (strcmp(vclk->name, "CPUCL1") == 0) {
+                    if (new->table[j].rate == CPUCL1_FREQ_OLD)
+                        new->table[j].rate = CPUCL1_FREQ_NEW;
+                }
+                
+                else if (strcmp(vclk->name, "CPUCL2") == 0) {
+                    if (new->table[j].rate == CPUCL2_FREQ_OLD)
+                        new->table[j].rate = CPUCL2_FREQ_NEW;
+                }
+                
+                else if (strcmp(vclk->name, "G3D") == 0) {
+                    if (new->table[j].rate == G3D_FREQ_OLD)
+                        new->table[j].rate = G3D_FREQ_NEW;
+                }
+            }
+
+            pr_info("  lv : [%7d], volt = %d uV (%d %%) \n",
+                    new->table[j].rate, new->table[j].volt,
+                    volt_offset_percent);
+               }
 	}
 }
 
@@ -944,6 +975,101 @@ static ssize_t store_patch(struct kobject *kobj, struct kobj_attribute *attr, co
 	return count;
 }
 
+/* ======== EXYNOS CALIBRATION SYSFS ======== */
+
+static ssize_t show_cpucl0_calibration(struct kobject *kobj,
+                                       struct kobj_attribute *attr, char *buf)
+{
+    return sprintf(buf, "%u\n", cpucl0_calibration);
+}
+
+static ssize_t store_cpucl0_calibration(struct kobject *kobj,
+                                        struct kobj_attribute *attr,
+                                        const char *buf, size_t count)
+{
+    unsigned int val;
+    if (kstrtouint(buf, 10, &val))
+        return -EINVAL;
+    cpucl0_calibration = val;
+    pr_info("cpucl0 calibration updated to %u\n", val);
+    return count;
+}
+
+static ssize_t show_cpucl1_calibration(struct kobject *kobj,
+                                       struct kobj_attribute *attr, char *buf)
+{
+    return sprintf(buf, "%u\n", cpucl1_calibration);
+}
+
+static ssize_t store_cpucl1_calibration(struct kobject *kobj,
+                                        struct kobj_attribute *attr,
+                                        const char *buf, size_t count)
+{
+    unsigned int val;
+    if (kstrtouint(buf, 10, &val))
+        return -EINVAL;
+    cpucl1_calibration = val;
+    pr_info("cpucl1 calibration updated to %u\n", val);
+    return count;
+}
+
+static ssize_t show_cpucl2_calibration(struct kobject *kobj,
+                                       struct kobj_attribute *attr, char *buf)
+{
+    return sprintf(buf, "%u\n", cpucl2_calibration);
+}
+
+static ssize_t store_cpucl2_calibration(struct kobject *kobj,
+                                        struct kobj_attribute *attr,
+                                        const char *buf, size_t count)
+{
+    unsigned int val;
+    if (kstrtouint(buf, 10, &val))
+        return -EINVAL;
+    cpucl2_calibration = val;
+    pr_info("cpucl2 calibration updated to %u\n", val);
+    return count;
+}
+
+static ssize_t show_g3d_calibration(struct kobject *kobj,
+                                    struct kobj_attribute *attr, char *buf)
+{
+    return sprintf(buf, "%u\n", g3d_calibration);
+}
+
+static ssize_t store_g3d_calibration(struct kobject *kobj,
+                                     struct kobj_attribute *attr,
+                                     const char *buf, size_t count)
+{
+    unsigned int val;
+    if (kstrtouint(buf, 10, &val))
+        return -EINVAL;
+    g3d_calibration = val;
+    pr_info("g3d calibration updated to %u\n", val);
+    return count;
+}
+
+static struct kobj_attribute cpucl0_calibration_attr =
+    __ATTR(cpucl0_calibration, 0664, show_cpucl0_calibration, store_cpucl0_calibration);
+static struct kobj_attribute cpucl1_calibration_attr =
+    __ATTR(cpucl1_calibration, 0664, show_cpucl1_calibration, store_cpucl1_calibration);
+static struct kobj_attribute cpucl2_calibration_attr =
+    __ATTR(cpucl2_calibration, 0664, show_cpucl2_calibration, store_cpucl2_calibration);
+static struct kobj_attribute g3d_calibration_attr =
+    __ATTR(g3d_calibration, 0664, show_g3d_calibration, store_g3d_calibration);
+
+static struct attribute *calibration_attrs[] = {
+    &cpucl0_calibration_attr.attr,
+    &cpucl1_calibration_attr.attr,
+    &cpucl2_calibration_attr.attr,
+    &g3d_calibration_attr.attr,
+    NULL,
+};
+
+static const struct attribute_group calibration_group = {
+    .attrs = calibration_attrs,
+};
+
 static struct kobj_attribute patch =
 __ATTR(patch, 0644, show_patch, store_patch);
 
@@ -994,6 +1120,14 @@ int fvmap_init(void __iomem *sram_base)
 		pr_err("Fail to create asv_g_spec group\n");
 #endif
 #endif /* CONFIG_SEC_FACTORY */
+
+       /* Exynos Calibration interface */
+    kobj = kobject_create_and_add("calibration", power_kobj);
+    if (!kobj)
+        pr_err("Fail to create calibration kobject\n");
+
+    if (sysfs_create_group(kobj, &calibration_group))
+        pr_err("Fail to create calibration group\n");
 
 	return 0;
 }
